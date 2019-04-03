@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_course/pages/products.dart';
-import 'package:flutter_course/pages/product_create.dart';
+import 'package:flutter_course/pages/product_edit.dart';
 import 'package:flutter_course/pages/product_list.dart';
 
 class ProductAdmin extends StatelessWidget {
+
+  final List<Map<String,dynamic>> products;
+  final Function addProduct;
+  final Function deleteProduct;
+  final Function updateProduct;
+
+  ProductAdmin(this.addProduct,this.deleteProduct,this.updateProduct,this.products);
+
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -17,10 +26,11 @@ class ProductAdmin extends StatelessWidget {
                 title: Text("Choose"),
               ),
               ListTile(
+                leading: Icon(Icons.shop),
                 title: Text("List Products"),
                 onTap: () {
                   Navigator.pushReplacementNamed(
-                    context,"/"
+                    context,"/products"
                   );
                 },
               )
@@ -41,7 +51,7 @@ class ProductAdmin extends StatelessWidget {
           ]),
         ),
         body: TabBarView(
-            children: <Widget>[ProductCreatePage(), ProductListPage()]),
+            children: <Widget>[ProductEditPage(addProduct: addProduct), ProductListPage(products,updateProduct,deleteProduct)]),
       ),
     );
   }
