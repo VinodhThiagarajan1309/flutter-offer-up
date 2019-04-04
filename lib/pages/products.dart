@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_course/widgets/product/products.dart';
+import 'package:flutter_course/models/product.dart';
 
 class ProductsPage extends StatelessWidget {
-  final List<Map<String, dynamic>> products;
-
-  ProductsPage(this.products);
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +36,7 @@ class ProductsPage extends StatelessWidget {
         ],
         title: Text("Easy List"),
       ),
-      body: Products(products),
+      body: Products(),
     );
   }
 }

@@ -4,6 +4,10 @@ import 'package:flutter_course/pages/product_admin.dart';
 import 'package:flutter_course/pages/products.dart';
 import 'package:flutter_course/pages/product.dart';
 import 'package:flutter/rendering.dart';
+import 'models/product.dart';
+import 'package:scoped_model/scoped_model.dart';
+import 'package:flutter_course/scopedmodels/products.dart';
+
 
 void main() {
   //debugPaintSizeEnabled = true;
@@ -18,30 +22,12 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final List<Map<String, dynamic>> _products = [];
-
-  void _updateProduct(int positionOfTheProduct, Map<String, dynamic> product) {
-    setState(() {
-      _products[positionOfTheProduct] = product;
-    });
-  }
-
-  void _addProducts(Map<String, dynamic> product) {
-    setState(() {
-      print('This was called ');
-      _products.add(product);
-    });
-  }
-
-  void _deleteProduct(int positionOfTheProduct) {
-    setState(() {
-      _products.removeAt(positionOfTheProduct);
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return ScopedModel<ProductsModel>(
+        model: ProductsModel(),
+        child: MaterialApp(
       //debugShowMaterialGrid: true,
       //home: AuthPage(),
       theme: ThemeData(
@@ -50,9 +36,9 @@ class _MyAppState extends State<MyApp> {
           accentColor: Colors.amberAccent),
       routes: {
         "/": (BuildContext context) => AuthPage(),
-        "/products": (BuildContext context) => ProductsPage(_products),
+        "/products": (BuildContext context) => ProductsPage(),
         "/admin": (BuildContext context) =>
-            ProductAdmin(_addProducts, _deleteProduct,_updateProduct,_products)
+            ProductAdmin()
       },
       onGenerateRoute: (RouteSettings settings) {
         final List<String> pathElements = settings.name.split("/");
@@ -63,8 +49,10 @@ class _MyAppState extends State<MyApp> {
         if (pathElements[1] == "product") {
           final int index = int.parse(pathElements[2]);
 
+          print('This is the index' + index.toString());
+
           return MaterialPageRoute<bool>(
-            builder: (BuildContext context) => ProductPage(_products[index]),
+            builder: (BuildContext context) => ProductPage(index),
           );
         }
 
@@ -72,8 +60,8 @@ class _MyAppState extends State<MyApp> {
       },
       onUnknownRoute: (RouteSettings settings) {
         return MaterialPageRoute(
-            builder: (BuildContext context) => ProductsPage(_products));
+            builder: (BuildContext context) => ProductsPage());
       },
-    );
+    ));
   }
 }

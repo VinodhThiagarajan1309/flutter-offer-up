@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'price.dart';
 import 'package:flutter_course/widgets/ui_elements/title_default.dart';
 import 'package:flutter_course/widgets/ui_elements/address.dart';
+import 'package:flutter_course/models/product.dart';
+import 'package:scoped_model/scoped_model.dart';
+import 'package:flutter_course/scopedmodels/products.dart';
 
 class CustomCard extends StatelessWidget {
-  final Map<String, dynamic> product;
+  final Product product;
   final int index;
 
   CustomCard(this.index, this.product);
@@ -14,7 +17,7 @@ class CustomCard extends StatelessWidget {
     return Card(
       child: Column(
         children: <Widget>[
-          Image.asset(product['imageUrl']),
+          Image.asset(product.imageUrl),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -24,11 +27,11 @@ class CustomCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      TitleDefault(product['title']),
+                      TitleDefault(product.title),
                       SizedBox(
                         width: 8.0,
                       ),
-                      PriceTag(product['price'].toString()),
+                      PriceTag(product.price.toString()),
                     ]),
                 padding: EdgeInsets.only(top: 10.0),
               ),
