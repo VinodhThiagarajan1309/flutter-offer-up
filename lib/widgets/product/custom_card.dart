@@ -4,7 +4,7 @@ import 'package:flutter_course/widgets/ui_elements/title_default.dart';
 import 'package:flutter_course/widgets/ui_elements/address.dart';
 import 'package:flutter_course/models/product.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:flutter_course/scopedmodels/products.dart';
+import 'package:flutter_course/scopedmodels/master_scope.dart';
 
 class CustomCard extends StatelessWidget {
   final Product product;
@@ -60,12 +60,21 @@ class CustomCard extends StatelessWidget {
               ),
               ButtonBar(
                 children: <Widget>[
-                  IconButton(
-                    icon: Icon(Icons.favorite_border),
-                    color: Colors.red,
-                    //child: Text("Details"),
-                    onPressed: () {},
-                  )
+                  ScopedModelDescendant<MasterScope>(builder:
+                      (BuildContext context, Widget child,
+                          MasterScope model) {
+                    return IconButton(
+                      icon: Icon(model.products[index].isFavourite
+                          ? Icons.favorite
+                          : Icons.favorite_border),
+                      color: Colors.red,
+                      //child: Text("Details"),
+                      onPressed: () {
+                        model.setProduct(index);
+                        model.toggleProductFav();
+                      },
+                    );
+                  })
                 ],
               )
             ],

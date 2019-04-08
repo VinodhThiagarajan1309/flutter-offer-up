@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_course/pages/product_edit.dart';
 import 'package:flutter_course/models/product.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:flutter_course/scopedmodels/products.dart';
+import 'package:flutter_course/scopedmodels/master_scope.dart';
 
 class ProductListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ScopedModelDescendant<ProductsModel>(
-        builder: (BuildContext context, Widget child, ProductsModel model) {
+    return ScopedModelDescendant<MasterScope>(
+        builder: (BuildContext context, Widget child, MasterScope model) {
       List<Product> products = model.products;
       return ListView.builder(
         itemBuilder: (BuildContext context, int index) {

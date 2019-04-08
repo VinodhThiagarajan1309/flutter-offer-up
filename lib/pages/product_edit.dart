@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_course/models/product.dart';
-import 'package:flutter_course/scopedmodels/products.dart';
+import 'package:flutter_course/scopedmodels/master_scope.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class ProductEditPage extends StatefulWidget {
@@ -27,8 +27,8 @@ class _ProductEditPage extends State<ProductEditPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModelDescendant<ProductsModel>(
-        builder: (BuildContext context, Widget child, ProductsModel model) {
+    return ScopedModelDescendant<MasterScope>(
+        builder: (BuildContext context, Widget child, MasterScope model) {
           print('This is happening 1');
           Product product = model.selectedProduct;
           if(null != product) {
@@ -97,8 +97,8 @@ class _ProductEditPage extends State<ProductEditPage> {
                     SizedBox(
                       height: 10.0,
                     ),
-                    ScopedModelDescendant<ProductsModel>(builder:
-                        (BuildContext context, Widget child, ProductsModel model) {
+                    ScopedModelDescendant<MasterScope>(builder:
+                        (BuildContext context, Widget child, MasterScope model) {
                       return RaisedButton(
                         color: Theme.of(context).primaryColor,
                         textColor: Colors.white,

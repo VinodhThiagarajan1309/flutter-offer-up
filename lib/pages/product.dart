@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_course/widgets/ui_elements/title_default.dart';
 import 'package:flutter_course/models/product.dart';
-import 'package:flutter_course/scopedmodels/products.dart';
+import 'package:flutter_course/scopedmodels/master_scope.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 
@@ -44,8 +44,8 @@ class ProductPage extends StatelessWidget {
         Navigator.pop(context, false);
         Future.value(false);
       },
-      child: ScopedModelDescendant<ProductsModel>(
-          builder: (BuildContext context, Widget child, ProductsModel model) {
+      child: ScopedModelDescendant<MasterScope>(
+          builder: (BuildContext context, Widget child, MasterScope model) {
             print(model.products.length.toString() + " is the size");
             final Product product = model.products[productIndex];
         return Scaffold(

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_course/pages/products.dart';
+import 'package:flutter_course/models/user.dart';
+import 'package:flutter_course/scopedmodels/master_scope.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class AuthPage extends StatefulWidget {
   @override
@@ -9,11 +11,13 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPage extends State<AuthPage> {
-
-  final Map<String,dynamic> loginData = {
-    "email": null
+  final Map<String, dynamic> _loginData = {
+    "email": null,
+    "password": null,
+    "terms": null
   };
   bool _termsAndCondition = false;
+
   final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
 
   @override
@@ -49,14 +53,12 @@ class _AuthPage extends State<AuthPage> {
                       fillColor: Colors.white),
                   keyboardType: TextInputType.emailAddress,
                   onSaved: (String value) {
-
-                    loginData["email"] = value;
-
+                    _loginData["email"] = value;
                   },
                 ),
                 TextFormField(
                   validator: (String value) {
-                    if(value.length < 5) {
+                    if (value.length < 5) {
                       return 'Password must be 5+ characters.';
                     }
                   },
@@ -68,9 +70,7 @@ class _AuthPage extends State<AuthPage> {
                   obscureText: true,
                   //TextInputType.numberWithOptions(signed: false, decimal: true),
                   onSaved: (String value) {
-
-                      //_password = value;
-
+                    _loginData["password"] = value;
                   },
                 ),
                 SwitchListTile(
@@ -85,16 +85,22 @@ class _AuthPage extends State<AuthPage> {
                 SizedBox(
                   height: 10.0,
                 ),
-                RaisedButton(
-                  onPressed: () {
-                    if (!_loginFormKey.currentState.validate()) {
-                      return; // Do nothing
-                    }
-                    _loginFormKey.currentState.save();
-                    Navigator.pushReplacementNamed(context, "/products");
+                ScopedModelDescendant<MasterScope>(
+                  builder:
+                      (BuildContext builder, Widget child, MasterScope model) {
+                    return RaisedButton(
+                      onPressed: () {
+                        if (!_loginFormKey.currentState.validate()) {
+                          return; // Do nothing
+                        }
+                        _loginFormKey.currentState.save();
+                        model.login(_loginData["email"], _loginData["password"]);
+                        Navigator.pushReplacementNamed(context, "/products");
+                      },
+                      child: Text("Login"),
+                    );
                   },
-                  child: Text("Login"),
-                )
+                ),
               ],
             ),
           )),
